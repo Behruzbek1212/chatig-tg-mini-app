@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light-mode fallbacks; overridden by Telegram themeParams at runtime. */
+  --tg-bg: #ffffff;
+  --tg-bg-secondary: #f3f4f6;
+  --tg-text: #111827;
+  --tg-hint: #8b95a1;
+  --tg-link: #2563eb;
+  --tg-button: #2563eb;
+  --tg-button-text: #ffffff;
+}
+
+html,
+body {
+  background-color: var(--tg-bg);
+  color: var(--tg-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
