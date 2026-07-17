@@ -3,7 +3,9 @@
 
 import { rawInitData } from '../telegram.js'
 
-const BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/$/, '')
+// VITE_API_URL bo'sh bo'lsa, so'rovlar nisbiy (/api/...) ketadi — Vite dev-server
+// ularni localhost:8080 ga proxy qiladi (vite.config.js). Shunda bitta tunnel yetadi.
+const BASE_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8080').replace(/\/$/, '')
 const API_PREFIX = '/api/v1'
 
 export class ApiError extends Error {
@@ -27,7 +29,9 @@ function defaultMessage(status) {
 }
 
 async function request(method, path, { body, params } = {}) {
-  const url = new URL(BASE_URL + API_PREFIX + path)
+  // BASE_URL bo'sh bo'lsa nisbiy yo'l bo'ladi — window.origin ni base qilamiz
+  // (Vite proxy /api ni backendga uzatadi).
+  const url = new URL(BASE_URL + API_PREFIX + path, window.location.origin)
   if (params) {
     Object.entries(params).forEach(([k, v]) => {
       if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v)
